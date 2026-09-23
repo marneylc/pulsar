@@ -5,13 +5,33 @@ separate from the Pulsar source on `master`.
 
 ## Install on a new machine
 
+**Step 1: get Pulsar itself onto the machine.**
+
+- macOS/Windows, or Linux if a release happens to exist for it: download
+  from https://pulsar-edit.dev and install normally.
+- Linux otherwise (this is the normal case — see below): build from
+  source, following "Building Pulsar from source on Linux" first, then
+  come back here.
+
+**Step 2: install this config.**
+
 ```bash
 git clone -b user-config https://github.com/marneylc/pulsar.git pulsar-config
 cd pulsar-config && ./install.sh
 ```
 
-Needs Pulsar installed (a recent release that bundles the `terminal`
-package) and, for `claude-chat`, the Claude Code CLI logged in.
+For `claude-chat` this also needs the Claude Code CLI logged in —
+`install.sh` checks and prints the install command if it's missing.
+
+If `~/pulsar` exists (a source build), `install.sh` also links
+`bin/pulsar` and `bin/ppm` from this repo into `~/.local/bin`, so plain
+`pulsar` and `ppm` commands work afterwards. This matters because
+upstream's own `pulsar.sh`/`ppm` don't work against a raw git checkout —
+they expect a packaged install's directory layout (`resources/app/...`
+alongside a top-level `pulsar` binary), which `yarn build` doesn't
+produce; `bin/pulsar` just runs `yarn start` from `~/pulsar`, and
+`bin/ppm` sets `ATOM_ELECTRON_VERSION` (see the electron-version note
+below) before calling `~/pulsar/ppm/bin/ppm` directly.
 
 ## Building Pulsar from source on Linux
 
@@ -57,8 +77,11 @@ cd ~/pulsar
 yarn install
 yarn build
 yarn build:apm
-yarn start        # or: ./pulsar.sh
+yarn start
 ```
+
+(`yarn start`, not `./pulsar.sh` — the latter only works against a
+packaged install, not a raw checkout; see the `bin/pulsar` note below.)
 
 `--recurse-submodules` matters: `ppm/` is a git submodule
 (`pulsar-edit/ppm`), and `yarn build:apm` silently no-ops in an empty
@@ -67,14 +90,14 @@ after the fact). `yarn install` runs `electron-rebuild` as a postinstall
 step, which is where the header requirements above actually get exercised
 — that's the step that fails first if one is missing.
 
-Once built, `install.sh` (below) finds `~/pulsar/ppm/bin/ppm` on its own
-and reads `~/pulsar/package.json`'s `electronVersion` to work around `ppm
-install` otherwise failing with "Could not determine Electron version"
-— that error means ppm can't tell what Electron a source checkout was
-built against (it normally gets this from an installed release, which a
-source build isn't). If invoking `ppm` directly instead of through
-`install.sh`, export `ATOM_ELECTRON_VERSION` first (see `package.json`'s
-`electronVersion` field for the value).
+Once built, go back to step 2 above: `install.sh` finds
+`~/pulsar/ppm/bin/ppm` on its own and reads `~/pulsar/package.json`'s
+`electronVersion` to work around `ppm install` otherwise failing with
+"Could not determine Electron version" — that error means ppm can't tell
+what Electron a source checkout was built against (it normally gets this
+from an installed release, which a source build isn't). If invoking `ppm`
+directly instead of through `install.sh`, export `ATOM_ELECTRON_VERSION`
+first (see `package.json`'s `electronVersion` field for the value).
 
 ## What's here
 

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Launches a source-built Pulsar (~/pulsar). pulsar.sh from the upstream
+# repo only works against a packaged install (resources/app/pulsar.sh
+# alongside a top-level `pulsar` binary) — a raw git checkout doesn't have
+# that layout, so `./pulsar.sh` fails with "Cannot locate Pulsar" even
+# after a successful `yarn build`. This runs the same thing `yarn start`
+# does, from any directory.
+set -euo pipefail
+PULSAR_SRC="${PULSAR_SRC:-$HOME/pulsar}"
+cd "$PULSAR_SRC"
+exec yarn --silent start "$@"

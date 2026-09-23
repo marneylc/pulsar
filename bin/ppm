@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Runs ppm from a source-built Pulsar (~/pulsar/ppm), setting
+# ATOM_ELECTRON_VERSION so it doesn't fail with "Could not determine
+# Electron version" — against a source checkout (not an installed
+# release) ppm has no other way to learn this.
+set -euo pipefail
+PULSAR_SRC="${PULSAR_SRC:-$HOME/pulsar}"
+export ATOM_ELECTRON_VERSION="${ATOM_ELECTRON_VERSION:-$(node -p "require('$PULSAR_SRC/package.json').electronVersion")}"
+exec "$PULSAR_SRC/ppm/bin/ppm" "$@"

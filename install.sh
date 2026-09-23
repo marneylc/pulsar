@@ -46,6 +46,18 @@ grep -v '^\s*\(#\|$\)' "$here/packages.txt" | while read -r pkg; do
   "${ppm[@]}" install "$pkg"
 done
 
+bindest="${HOME}/.local/bin"
+if [ -d "$HOME/pulsar" ] && [ ! -e "$bindest/pulsar" ]; then
+  mkdir -p "$bindest"
+  ln -s "$here/bin/pulsar" "$bindest/pulsar"
+  ln -s "$here/bin/ppm" "$bindest/ppm"
+  echo "linked $bindest/pulsar and $bindest/ppm (wrappers around ~/pulsar's yarn start / ppm/bin/ppm)"
+  case ":$PATH:" in
+    *":$bindest:"*) ;;
+    *) echo "note: $bindest isn't on PATH yet — add it in ~/.bashrc" ;;
+  esac
+fi
+
 if command -v claude >/dev/null; then
   echo "claude CLI found: $(command -v claude)"
 else
