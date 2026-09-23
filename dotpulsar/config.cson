@@ -1,0 +1,31 @@
+"*":
+  terminal:
+    appearance:
+      customThemeColors:
+        background: "#12181d"
+        black: "#1c252c"
+        blue: "#3d6b7a"
+        brightBlack: "#5c6b73"
+        brightBlue: "#5c8fa0"
+        brightCyan: "#6bb0b0"
+        brightGreen: "#8a9a7a"
+        brightMagenta: "#9a7a8e"
+        brightRed: "#a94f4f"
+        brightWhite: "#eef2f4"
+        brightYellow: "#c9702f"
+        cursor: "#c9702f"
+        cursorText: "#12181d"
+        cyan: "#4a8a8a"
+        foreground: "#cdd8dd"
+        green: "#6b7a5e"
+        magenta: "#7a5c6e"
+        red: "#8b3a3a"
+        selectionBackground: "#2a333a"
+        white: "#cdd8dd"
+        yellow: "#b5834f"
+      fontFamily: "monospace"
+      theme: "Config"
+  "vim-mode-plus":
+    statusBarModeStringStyle: "long"
+  welcome:
+    showOnStartup: false

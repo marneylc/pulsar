@@ -1,0 +1,60 @@
+// Caladan (matches ~/.config/sway/colors + alacritty theme-dark)
+@bg:      #12181d;
+@bg-dark: #0d1216;
+@bg-lift: #1c252c;
+@border:  #2a333a;
+@fg:      #cdd8dd;
+@fg-dim:  #7d8a90;
+@fg-mute: #5c6b73;
+@accent:  #c9702f;
+
+atom-workspace, .tree-view, .tool-panel, .panel, .status-bar, .tab-bar,
+.pane, .inset-panel, .panel-body, .list-group, .settings-view, .modal {
+  background-color: @bg; color: @fg;
+}
+.tab-bar { background-color: @bg-dark; border-color: @border;
+  .tab { background-color: @bg-dark; color: @fg-mute; border-color: @border; }
+  .tab.active { background-color: @bg; color: @fg; box-shadow: inset 0 -2px 0 @accent; }
+}
+.status-bar { background-color: @bg-dark; border-color: @border; color: @fg-dim; }
+atom-pane-container .pane, .pane-item { border-color: @border; }
+.pane-resize-handle, atom-panel-container { border-color: @border; }
+.tree-view .selected::before, .list-group .selected::before,
+.list-tree .selected::before { background-color: @bg-lift; }
+.list-item.selected, .selected { color: @fg; }
+.focused .selected::before { background-color: @border !important; }
+.tree-view .focused .selected { box-shadow: inset 2px 0 0 @accent; }
+atom-text-editor, atom-text-editor .gutter { background-color: @bg; color: @fg; }
+atom-text-editor .gutter { color: @fg-mute; }
+atom-text-editor .line-number.cursor-line { background-color: @bg-lift; color: @accent; }
+atom-text-editor .cursor { border-color: @accent; }
+atom-text-editor .selection .region { background-color: @border; }
+atom-text-editor .wrap-guide { display: none; }
+atom-text-editor::shadow .highlight, atom-text-editor .highlight.selection .region { background-color: @border; }
+atom-text-editor .cursor-line { background-color: @bg-lift; }
+.atom-text-editor, atom-text-editor {
+  .syntax--comment { color: @fg-mute; font-style: italic; }
+  .syntax--string, .syntax--string.syntax--quoted { color: #8a9a7a; }
+  .syntax--constant, .syntax--constant.syntax--numeric { color: #c9702f; }
+  .syntax--keyword, .syntax--storage { color: #b5834f; }
+  .syntax--entity.syntax--name.syntax--function, .syntax--support.syntax--function { color: #5c8fa0; }
+  .syntax--entity.syntax--name.syntax--class, .syntax--entity.syntax--name.syntax--type,
+  .syntax--support.syntax--class { color: #6bb0b0; }
+  .syntax--variable { color: @fg; }
+  .syntax--variable.syntax--parameter { color: #9a7a8e; }
+  .syntax--invalid { color: #a94f4f; }
+  .syntax--punctuation, .syntax--meta.syntax--brace { color: @fg-dim; }
+}
+// vim-mode-plus: block cursor in normal mode, accent colored
+atom-text-editor.vim-mode-plus.normal-mode .cursor,
+atom-text-editor.vim-mode-plus.visual-mode .cursor { background-color: fade(@accent, 60%); border-color: @accent; }
+// terminal
+pulsar-terminal, .xterm, .xterm-viewport { background-color: @bg !important; }
+// vim-mode-plus status bar mode indicator: colored pill per mode
+#status-bar-vim-mode-plus > div {
+  padding: 0 8px; font-weight: bold; border-radius: 3px; color: @bg-dark;
+  &.status-bar-vim-mode-plus-normal           { background-color: #5c8fa0; }
+  &.status-bar-vim-mode-plus-insert           { background-color: #8a9a7a; }
+  &.status-bar-vim-mode-plus-visual           { background-color: @accent; }
+  &.status-bar-vim-mode-plus-operator-pending { background-color: #9a7a8e; }
+}

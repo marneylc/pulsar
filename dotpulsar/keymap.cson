@@ -1,0 +1,17 @@
+# Your keymap
+#
+# Pulsar keymaps work similarly to style sheets. Just as style sheets use
+# selectors to apply styles to elements, keymaps use selectors to associate
+# keystrokes with events in specific contexts.
+
+# Send current line (or selection) to the active terminal and advance the cursor.
+'atom-workspace atom-text-editor:not([mini])':
+  'shift-enter': 'user:send-line-to-terminal'
+  'ctrl-enter': 'user:send-line-to-terminal'
+
+# Alt+h/j/k/l pane navigation (mirrors nvim), including from inside the terminal.
+'atom-workspace, atom-workspace atom-text-editor, atom-workspace pulsar-terminal':
+  'alt-h': 'window:focus-pane-on-left'
+  'alt-j': 'window:focus-pane-below'
+  'alt-k': 'window:focus-pane-above'
+  'alt-l': 'window:focus-pane-on-right'
