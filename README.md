@@ -52,7 +52,7 @@ build:
 With those in place:
 
 ```bash
-git clone https://github.com/marneylc/pulsar.git ~/pulsar   # master, the source
+git clone --recurse-submodules https://github.com/marneylc/pulsar.git ~/pulsar   # master, the source
 cd ~/pulsar
 yarn install
 yarn build
@@ -60,11 +60,21 @@ yarn build:apm
 yarn start        # or: ./pulsar.sh
 ```
 
-`yarn install` runs `electron-rebuild` as a postinstall step, which is
-where the header requirements above actually get exercised — that's the
-step that fails first if one is missing. Once `pulsar` is on `PATH` (or
-via `~/pulsar/pulsar.sh`), come back here and run `./install.sh` to lay
-down this config.
+`--recurse-submodules` matters: `ppm/` is a git submodule
+(`pulsar-edit/ppm`), and `yarn build:apm` silently no-ops in an empty
+directory if it wasn't fetched (fix with `git submodule update --init`
+after the fact). `yarn install` runs `electron-rebuild` as a postinstall
+step, which is where the header requirements above actually get exercised
+— that's the step that fails first if one is missing.
+
+Once built, `install.sh` (below) finds `~/pulsar/ppm/bin/ppm` on its own
+and reads `~/pulsar/package.json`'s `electronVersion` to work around `ppm
+install` otherwise failing with "Could not determine Electron version"
+— that error means ppm can't tell what Electron a source checkout was
+built against (it normally gets this from an installed release, which a
+source build isn't). If invoking `ppm` directly instead of through
+`install.sh`, export `ATOM_ELECTRON_VERSION` first (see `package.json`'s
+`electronVersion` field for the value).
 
 ## What's here
 

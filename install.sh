@@ -20,6 +20,15 @@ else
   exit 1
 fi
 
+# A source build (the ppm/bin/ppm fallback above) isn't "installed", so
+# ppm can't find its Electron version the normal way and errors with
+# "Could not determine Electron version" on every install. Read it
+# straight from the checkout's package.json instead.
+if [ -z "${ATOM_ELECTRON_VERSION:-}" ] && [ -f "$HOME/pulsar/package.json" ]; then
+  ATOM_ELECTRON_VERSION="$(node -p "require('$HOME/pulsar/package.json').electronVersion" 2>/dev/null || true)"
+  [ -n "$ATOM_ELECTRON_VERSION" ] && export ATOM_ELECTRON_VERSION
+fi
+
 mkdir -p "$dest"
 stamp="$(date +%Y%m%d-%H%M%S)"
 for f in "$here"/dotpulsar/*; do
